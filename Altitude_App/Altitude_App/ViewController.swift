@@ -16,7 +16,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var lacValLabel: UILabel!
     @IBOutlet weak var longValLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
+    
     let locationManager = CLLocationManager()
+    var lat = "ConstLat"
+    var lon = "ConstLon"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +43,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.startUpdatingLocation()
     }
     
+    @IBAction func buttonPressed(sender: UIButton) {
+        println("You clicked the button")
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.timeStyle = .MediumStyle
+        println(formatter.stringFromDate(date))
+        let myUrl = NSURL(string: "http://localhost:8080")
+        let request = NSMutableURLRequest(URL:myUrl!)
+        request.HTTPMethod = "POST"
+        // Compose a query string
+        let postString = "testing time="+formatter.stringFromDate(date)+"lat="+self.lat+"lon="+self.lon
+        
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        print(request)
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if error != nil
+            {
+                println("error=\(error)")
+                return
+            }
+            
+            // You can print out response object
+            println("response = \(response)")
+            
+            // Print out response body
+            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
+            println("responseString = \(responseString)")
+        }
+        task.resume()
+    }
+    
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations:  [AnyObject]!) {
         if let location = locations.first as? CLLocation {
             altitudeLabel.text = "\(location.altitude) m"
             //Update latitude and longitude
             var lac = String(format:"%3.3f", location.coordinate.latitude)
+            self.lat = lac
             lacValLabel.text = lac
             var long = String(format:"%3.3f", location.coordinate.longitude)
             longValLabel.text = long
+            self.lon = long
             // Re-center the map
             mapView.centerCoordinate = location.coordinate
         }
