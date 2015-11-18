@@ -17,11 +17,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var longValLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var testName: UITextField!
+    @IBOutlet weak var duration: UITextField!
+    @IBOutlet weak var interval: UITextField!
+    weak var timer1: NSTimer?
+    weak var timer2: NSTimer?
     
     let locationManager = CLLocationManager()
     var lat = "ConstLat"
     var lon = "ConstLon"
+    var alt = "ConstAlt"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,18 +48,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.startUpdatingLocation()
     }
     
+    //input the interval, duration, and testname into textfields before running start
     @IBAction func buttonPressed(sender: UIButton) {
         println("You clicked the button")
-        let date = NSDate()
+        let interval = NSNumberFormatter().numberFromString(self.interval.text)?.integerValue
+        let dur = (NSNumberFormatter().numberFromString(self.duration.text)?.integerValue)
+        let nextTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval!), target: self, selector: "handleIdleEvent:", userInfo: nil, repeats: true)
+        self.timer1 = nextTimer
+        let stopTimer = NSTimer.scheduledTimerWithTimeInterval(Double(dur!*60), target: self, selector: "stopEvent:", userInfo: nil, repeats: false)
+        self.timer2 = stopTimer
+    }
+    
+    //invalidate post requests after certain amount of time
+    func stopEvent(timer: NSTimer) {
+        self.timer1?.invalidate()
+    }
+    
+    //post request
+    func handleIdleEvent(timer: NSTimer) {
+        let testName = self.testName.text
+        let myUrl = NSURL(string: "http://localhost:8080")
+        var request = NSMutableURLRequest(URL:myUrl!)
+        request.HTTPMethod = "POST"
         let formatter = NSDateFormatter()
         formatter.timeStyle = .MediumStyle
-        println(formatter.stringFromDate(date))
-        let myUrl = NSURL(string: "http://localhost:8080")
-        let request = NSMutableURLRequest(URL:myUrl!)
-        request.HTTPMethod = "POST"
+        let date = NSDate()
         // Compose a query string
-        let postString = "testing time="+formatter.stringFromDate(date)+"lat="+self.lat+"lon="+self.lon
-        
+        let postString = "testing ("+testName+") time="+formatter.stringFromDate(date)+" lat="+self.lat+" lon="+self.lon+" alt="+self.alt
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         print(request)
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
@@ -74,11 +94,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             println("responseString = \(responseString)")
         }
         task.resume()
+
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations:  [AnyObject]!) {
         if let location = locations.first as? CLLocation {
             altitudeLabel.text = "\(location.altitude) m"
+            self.alt="\(location.altitude) m"
             //Update latitude and longitude
             var lac = String(format:"%3.3f", location.coordinate.latitude)
             self.lat = lac
@@ -89,7 +111,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // Re-center the map
             mapView.centerCoordinate = location.coordinate
         }
-        locationManager.stopUpdatingLocation()
+        //locationManager.stopUpdatingLocation()
         
     }
     

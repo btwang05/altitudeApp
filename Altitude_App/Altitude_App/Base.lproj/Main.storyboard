@@ -86,22 +86,41 @@
                                     <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gvp-pp-dMB"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDD-Lq-5ul">
-                                <rect key="frame" x="465" y="564" width="42" height="36"/>
-                                <color key="backgroundColor" red="0.62376644739999998" green="0.72260485200000002" blue="0.78851010099999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleColor" red="0.9539968378" green="1" blue="0.90367410660000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Rab-pl-t3N">
                                 <rect key="frame" x="15" y="303" width="567" height="198"/>
                             </mapView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter data here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="12j-xU-yEF">
-                                <rect key="frame" x="16" y="514" width="567" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4bh-hD-Pho">
+                                <rect key="frame" x="263" y="562" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Duration(min):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pVg-cq-CME">
+                                <rect key="frame" x="148" y="567" width="107" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Interval (s):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdn-Ze-Hia">
+                                <rect key="frame" x="165" y="517" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cc7-1E-kar">
+                                <rect key="frame" x="56" y="514" width="92" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbc-a9-iun">
+                                <rect key="frame" x="15" y="517" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ehS-jr-ika">
+                                <rect key="frame" x="263" y="514" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -114,24 +133,23 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Rab-pl-t3N" secondAttribute="trailing" constant="10" id="N9A-5M-jHe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XKc-Ua-w3G" secondAttribute="trailing" constant="10" id="OHc-24-sNS"/>
                             <constraint firstItem="AkR-Ny-dSp" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="10" id="Oiu-p5-Ax4"/>
-                            <constraint firstItem="jDD-Lq-5ul" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="-10" id="Uuq-8N-geM"/>
                             <constraint firstItem="JD0-th-bJP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="YJx-ax-idl"/>
                             <constraint firstItem="Lt9-Y1-2hR" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="10" id="cAP-9u-P9K"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="12j-xU-yEF" secondAttribute="trailing" constant="10" id="crp-EZ-GTO"/>
                             <constraint firstItem="Rab-pl-t3N" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="eBZ-EJ-mDJ"/>
                             <constraint firstItem="W7h-YJ-MO2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="lm5-9f-IU4"/>
-                            <constraint firstItem="12j-xU-yEF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="rR2-Ou-qmU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XKc-Ua-w3G" secondAttribute="trailing" constant="100" id="tuV-JU-g6j"/>
                             <constraint firstItem="XKc-Ua-w3G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="x7c-27-Fo4"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="altitudeLabel" destination="AkR-Ny-dSp" id="Prv-bT-o4j"/>
+                        <outlet property="duration" destination="4bh-hD-Pho" id="cHy-SW-jGf"/>
+                        <outlet property="interval" destination="ehS-jr-ika" id="DiR-jv-0PZ"/>
                         <outlet property="lacValLabel" destination="Lt9-Y1-2hR" id="gcE-b0-GFm"/>
                         <outlet property="longValLabel" destination="DY0-7a-lVZ" id="wNT-DV-cjv"/>
                         <outlet property="mapView" destination="Rab-pl-t3N" id="67d-RS-CzK"/>
                         <outlet property="startButton" destination="QQy-wd-xi1" id="bX8-RS-brH"/>
-                        <outlet property="stopButton" destination="jDD-Lq-5ul" id="aiI-Zb-H1j"/>
+                        <outlet property="testName" destination="Cc7-1E-kar" id="knU-IO-zKU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
