@@ -7,21 +7,21 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>E7852AB2-8D2B-4B0E-A6B4-8416648D7EE5</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Altitude_App</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>90D2FA9151AEF0AA771365E724BA938EB6C872EA</key>
-		<string>https://github.com/btwang05/altitudeApp</string>
+		<string>https://github.com/btwang05/altitudeApp.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Altitude_App/Altitude_App.xcodeproj</string>
+	<string>Altitude_App/Altitude_App.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>90D2FA9151AEF0AA771365E724BA938EB6C872EA</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/btwang05/altitudeApp</string>
+	<string>https://github.com/btwang05/altitudeApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

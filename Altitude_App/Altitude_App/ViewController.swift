@@ -52,13 +52,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         altimeter.startRelativeAltitudeUpdatesToQueue(dataProcessingQueue) {
             (data, error) in
             if error != nil {
-                println("There was an error obtaining altimeter data: \(error)")
+                print("There was an error obtaining altimeter data: \(error)")
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
                     //Get a relative altitude when you start moving
                     //self.altChange += data.relativeAltitude as! Double
                     //self.altitudeLabel.text = "\(self.lengthFormatter.stringFromMeters(self.altChange))"
-                    var lac = String(format:"%3.3f", data.pressure)
+                    let lac = String(format:"%3.3f", data!.pressure)
                     self.pressureLabel.text = lac
                 }
             }
@@ -78,9 +78,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     //input the interval, duration, and testname into textfields before running start
     @IBAction func buttonPressed(sender: UIButton) {
-        println("You clicked the button")
-        let interval = NSNumberFormatter().numberFromString(self.interval.text)?.integerValue
-        let dur = (NSNumberFormatter().numberFromString(self.duration.text)?.integerValue)
+        print("You clicked the button")
+        let interval = NSNumberFormatter().numberFromString(self.interval.text!)?.integerValue
+        let dur = (NSNumberFormatter().numberFromString(self.duration.text!)?.integerValue)
         let nextTimer = NSTimer.scheduledTimerWithTimeInterval(Double(interval!), target: self, selector: "handleIdleEvent:", userInfo: nil, repeats: true)
         self.timer1 = nextTimer
         let stopTimer = NSTimer.scheduledTimerWithTimeInterval(Double(dur!*60), target: self, selector: "stopEvent:", userInfo: nil, repeats: false)
@@ -102,31 +102,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         formatter.timeStyle = .MediumStyle
         let date = NSDate()
         // Compose a query string
-        let postString = "testing ("+testName+") time="+formatter.stringFromDate(date)+" lat="+self.lat+" lon="+self.lon+" alt="+self.alt
+        let postString = "testing"//"testing !("+testName+") time= "+formatter.stringFromDate(date) +" lat="+self.lat+" lon="+self.lon+" alt=" + self.alt
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
-        print(request)
+        print(request, terminator: "")
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             data, response, error in
             
             if error != nil
             {
-                println("error=\(error)")
+                print("error=\(error)")
                 return
             }
             
             // You can print out response object
-            println("response = \(response)")
+            print("response = \(response)")
             
             // Print out response body
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("responseString = \(responseString)")
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("responseString = \(responseString)")
         }
         task.resume()
 
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations:  [AnyObject]!) {
-        if let location = locations.first as? CLLocation {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations:  [CLLocation]) {
+        if let location = locations.first as/*?*/ CLLocation! {
             altitudeLabel.text = "\(location.altitude) m"
             self.alt="\(location.altitude) m"
             //Update latitude and longitude
@@ -144,14 +144,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     //Show the map view
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer
+    {
         if let overlay = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: overlay)
             renderer.lineWidth = 4.0
             renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             return renderer
         }
-        return nil
+        return MKPolylineRenderer()
     }
 
 }
