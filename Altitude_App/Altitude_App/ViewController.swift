@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import CoreMotion
 
-class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, MKMapViewDelegate , NSURLSessionDelegate{
 
     @IBOutlet weak var altitudeLabel: UILabel!
     @IBOutlet weak var lacValLabel: UILabel!
@@ -19,9 +19,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var startButton: UIButton!
+    
     @IBOutlet weak var testName: UITextField!
     @IBOutlet weak var duration: UITextField!
     @IBOutlet weak var interval: UITextField!
+    
     weak var timer1: NSTimer?
     weak var timer2: NSTimer?
     
@@ -34,12 +36,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var lat = "ConstLat"
     var lon = "ConstLon"
     var alt = "ConstAlt"
+    var bar = "ConstBar"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
         locationManager.desiredAccuracy = 20
         mapView.delegate = self
+        testName.delegate = self
+        duration.delegate = self
+        interval.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -58,11 +64,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     //Get a relative altitude when you start moving
                     //self.altChange += data.relativeAltitude as! Double
                     //self.altitudeLabel.text = "\(self.lengthFormatter.stringFromMeters(self.altChange))"
-                    let lac = String(format:"%3.3f", data!.pressure)
+                    let lac = String(format:"%3.7fkPa", data!.pressure as Double)
+                    //self.altChange += data!.pressure as Double
+                    //self.pressureLabel.text = "\(self.lengthFormatter.stringFromMeters(self.altChange))Pa"
                     self.pressureLabel.text = lac
+                    self.bar = lac
                 }
             }
         }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,15 +109,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     //post request
     func handleIdleEvent(timer: NSTimer) {
+//        let configuration =
+//        NSURLSessionConfiguration.defaultSessionConfiguration()
+//        
+//        var session = NSURLSession(configuration: configuration, delegate: self, delegateQueue:NSOperationQueue.mainQueue())
+        
         let testName = self.testName.text
-        let myUrl = NSURL(string: "http://localhost:8080")
-        var request = NSMutableURLRequest(URL:myUrl!)
+        let myUrl = NSURL(string: "http://dyn-160-39-148-163.dyn.columbia.edu:8080")
+        let request = NSMutableURLRequest(URL:myUrl!)
         request.HTTPMethod = "POST"
         let formatter = NSDateFormatter()
         formatter.timeStyle = .MediumStyle
         let date = NSDate()
+        let stringDate = formatter.stringFromDate(date)
         // Compose a query string
-        let postString = "testing"//"testing !("+testName+") time= "+formatter.stringFromDate(date) +" lat="+self.lat+" lon="+self.lon+" alt=" + self.alt
+        let postString = "testing !("+testName!+")time= "+stringDate+" lat="+self.lat+" lon="+self.lon+" alt=" + self.alt+" bar="+self.bar
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
         print(request, terminator: "")
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
@@ -127,13 +148,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations:  [CLLocation]) {
         if let location = locations.first as/*?*/ CLLocation! {
-            altitudeLabel.text = "\(location.altitude) m"
-            self.alt="\(location.altitude) m"
+            let altitude = String(format:"%3.3fm", location.altitude)
+            altitudeLabel.text = altitude
+            self.alt="\(location.altitude)"
             //Update latitude and longitude
-            var lac = String(format:"%3.3f", location.coordinate.latitude)
+            let lac = String(format:"%3.3f", location.coordinate.latitude)
             self.lat = lac
             lacValLabel.text = lac
-            var long = String(format:"%3.3f", location.coordinate.longitude)
+            let long = String(format:"%3.3f", location.coordinate.longitude)
             longValLabel.text = long
             self.lon = long
             // Re-center the map
